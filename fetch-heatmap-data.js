@@ -3,10 +3,10 @@ import fs from 'fs';
 import { allSpecies } from './species.js';
 
 const PUBLIC_DIR = './public/data';
-const TARGET_LIMIT = 600; // Our new, higher target for data points
-const API_PAGE_LIMIT = 300; // The max the API gives per request
+const TARGET_LIMIT = 1000; // Increased to your new target
+const API_PAGE_LIMIT = 300;
 const RETRIES = 5;
-const DELAY = 5000; // 5 seconds between retries
+const DELAY = 5000;
 
 async function fetchWithRetry(url, speciesName) {
     for (let i = 0; i < RETRIES; i++) {
@@ -40,8 +40,10 @@ async function main() {
             try {
                 const data = await fetchWithRetry(url, species.commonName);
                 const newPoints = data.results
-                    .filter(r => r.decimalLatitude !== null && r.decimalLongitude !== null && r.countryCode !== 'AQ')
-                    .map(r => ({ lat: r.decimalLatitude, lng: r.decimalLongitude }));
+                    // --- MODIFIED LINE: Ensure 'year' exists before adding the point ---
+                    .filter(r => r.decimalLatitude !== null && r.decimalLongitude !== null && r.countryCode !== 'AQ' && r.year)
+                    // --- MODIFIED LINE: Add the 'year' to the data point ---
+                    .map(r => ({ lat: r.decimalLatitude, lng: r.decimalLongitude, year: r.year }));
                 
                 allPoints.push(...newPoints);
                 
@@ -53,9 +55,8 @@ async function main() {
 
             } catch (error) {
                 console.error(`❌ FAILED to fetch data for ${species.commonName}:`, error);
-                keepFetching = false; // Stop trying for this species if an error occurs
+                keepFetching = false;
             }
-             // Small delay to avoid hammering the API
             await new Promise(res => setTimeout(res, 1000));
         }
         
