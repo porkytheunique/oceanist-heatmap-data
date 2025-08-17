@@ -23,6 +23,10 @@ jobs:
       - name: Run Fetch Script
         run: node fetch-heatmap-data.js
 
+      # NEW DEBUGGING STEP: This will show us all the files that were created.
+      - name: List files for debugging
+        run: ls -R
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
