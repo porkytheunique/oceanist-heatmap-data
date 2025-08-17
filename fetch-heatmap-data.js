@@ -3,7 +3,7 @@ import fs from 'fs';
 import { allSpecies } from './species.js';
 
 const PUBLIC_DIR = './public/data';
-const POINTS_PER_DECADE = 500; // Our new, higher target per decade
+const POINTS_PER_DECADE = 1000; // Our new, higher target per decade
 const API_PAGE_LIMIT = 300;   // The max the API gives in a single request
 const RETRIES = 5;
 const DELAY = 5000;
