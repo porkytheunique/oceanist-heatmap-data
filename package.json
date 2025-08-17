@@ -1,0 +1,10 @@
+{
+  "name": "oceanist-heatmap-fetcher",
+  "version": "1.0.0",
+  "description": "Fetches heatmap data from GBIF for the Oceanist Species Spotlight.",
+  "main": "fetch-heatmap-data.js",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
